@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>waaf</title>
+</head>
+<body>
+    <h1>WAAFF app</h1>
+    <div id="dog">
+        
+    </div>
+    <br>
+    <div id="dogImg">
+        
+    </div>
+    <script>
+        async function start(){
+            try {
+                const response = await fetch("https://dog.ceo/api/breeds/list/all")
+                const data = await response.json()
+                console.log(data.message)
+                createBreedList(data.message)
+            }catch (e){
+                console.log(e)
+            }
+        }
+        start()
+
+        function createBreedList(breedList){
+            document.getElementById("dog").innerHTML = 
+                `<select onchange="loadByBreed(this.value)">
+                    <option value="">selectionner une race de chien</option>
+                    ${Object.keys(breedList).map(function (breed) {
+                        return `<option>${breed}</option>`
+                    }).join("")}
+                </select>`
+        }
+
+
+        /*
+        
+        https://dog.ceo/api/breed/hound/images
+        TODO AFFICHER UNE IMAGE DU CHIEN SELECTIONNER
+        */
+        // async function loadByBreed(hound){
+        //     if (hound != "selectionner une race de chien"){
+        //         const response = await fetch(`https://dog.ceo/api/breed/${hound}/images`)
+        //         const data = await response.json()
+        //         let x = Math.floor(Math.random() * 4)
+        //         console.log(data.message[0])
+        //         affImg(data.message[0])
+        //     }
+        // }
+        // function affImg(img){
+        //     document.getElementById("dogImg").innerHTML =
+        //     `
+        //     <img src="${img}">
+        //     `
+        // }
+
+
+        // TODO AFFICHER UNE IMAGE ALEATOIRE DU CHIEN SELECTIONNER
+        //https://dog.ceo/api/breeds/image/random
+        // async function loadByBreed(hound){
+        //     if (hound != "selectionner une race de chien"){
+        //         const response = await fetch(`https://dog.ceo/api/breed/${hound}/images/random`)
+        //         const data = await response.json()
+        //         console.log(data.message)
+        //         affImg(data.message)
+        //     }
+        // }
+        // function affImg(img){
+        //     document.getElementById("dogImg").innerHTML =
+        //     `
+        //     <img src="${img}">
+        //     `
+        // }
+
+
+
+
+
+
+
+
+
+        /*TODO AFFICHER 3 IMAGE RANDOM DU CHIEN SELECTIONNER
+        https://dog.ceo/api/breed/${hound}/images/random/3
+        */
+        async function loadByBreed(hound){
+            if (hound != "selectionner une race de chien"){
+                const response = await fetch(`https://dog.ceo/api/breed/${hound}/images/random/3`)
+                const data = await response.json()
+                console.log(data.message)
+                affImg(data.message)
+            }
+        }
+        function affImg(img){
+            document.getElementById("dogImg").innerHTML =
+            `
+            <img src="${img[0]}">
+            <img src="${img[1]}">
+            <img src="${img[2]}">
+            `
+        }
+
+    </script>
+</body>
+</html>
