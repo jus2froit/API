@@ -7,6 +7,81 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>JOKE</h1>
+
+    <form action="">
+        <label for="nsfw">nsfw</label>
+        <input type="text" id="nsfw" value="non">
+
+        <label for="religious">religious</label>
+        <input type="text" id="rel" value="non">
+
+        <label for="politique">politique</label>
+        <input type="text" id="pol" value="oui">
+
+        <label for="raciste">raciste</label>
+        <input type="text" id="rac" value="non">
+
+        <label for="sexiste">sexiste</label>
+        <input type="text" id="sex" value="non">
+
+        <label for="explicit">explicit</label>
+        <input type="text" id="exp" value="non">
+    </form>
+    <button id="buttonJoke" onclick="start()">Générer une blague</button>
+
+    <div id="joke"></div>
     
+
+
+    <script>
+        async function start(){
+            try {
+                let api = "https://v2.jokeapi.dev/joke/Any?lang=fr&blacklistFlags="
+                if (document.getElementById("nsfw").value != "oui"){
+                    api += "nsfw"
+                }
+                if (document.getElementById("rel").value != "oui"){
+                    api += ",religious"
+                }
+                if (document.getElementById("pol").value != "oui"){
+                    api += ",political"
+                }
+                if (document.getElementById("rac").value != "oui"){
+                    api += ",racist"
+                }
+                if (document.getElementById("sex").value != "oui"){
+                    api += ",sexist"
+                }
+                if (document.getElementById("exp").value != "oui"){
+                    api += ",explicit"
+                }
+                const response = await fetch(api)
+                const data = await response.json()
+                console.log(data)
+                console.log(api)
+                console.log(data.setup)
+                console.log(data.delivery)
+                affJokePol(data)
+            }catch (e){
+                console.log(e)
+            }
+        }
+
+        function affJokePol(joke){
+            document.getElementById("joke").innerHTML = 
+                    `${joke.setup}
+                    <div id="jokeResp">${joke.delivery}</div>
+                    
+                    `
+        }
+
+        // function affJokeNoPol(joke){
+        //     document.getElementById("joke").innerHTML = 
+        //             `${joke.setup}
+        //             <div id="jokeResp">${joke.delivery}</div>
+        //             `
+        // }
+    </script>
 </body>
 </html>
